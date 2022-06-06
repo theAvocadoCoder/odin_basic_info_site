@@ -1,12 +1,13 @@
 /**
- * Require Modules
+ * Require modules
  */
-const http = require('http')
+const express = require('express')
 const fs = require('fs')
 
 /**
- * Define Relevant Variables
+ * Configure app and define relevant variables
  */
+const app = express()
 const port = process.env.PORT || 8080
 
 const urls = [
@@ -22,10 +23,9 @@ const pages = [
 ]
 
 /**
- * Create Server
+ * Define routes
  */
-
-const server = http.createServer((req, res) => {
+app.use((req, res) => {
   if (urls.indexOf(req.url) > -1) {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/html')
@@ -34,7 +34,7 @@ const server = http.createServer((req, res) => {
   } else {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/html')
-    const html = fs.readFileSync('./404.html')
+    const html = fs.readFileSync('./pages/404.html')
     res.end(html)
   }
 })
@@ -42,7 +42,6 @@ const server = http.createServer((req, res) => {
 /**
  * Listen on assigned port
  */
-
-server.listen(port, () => {
+app.listen(port, () => {
   console.log(`Running at port ${port}`)
 })
