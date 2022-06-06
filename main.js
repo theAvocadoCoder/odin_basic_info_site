@@ -25,11 +25,12 @@ const pages = [
 /**
  * Define routes
  */
-app.use((req, res) => {
+
+app.get('*', (req, res) => {
   if (urls.indexOf(req.url) > -1) {
     res.statusCode = 200
     res.setHeader('Content-Type', 'text/html')
-    const html = fs.readFileSync(pages[urls.indexOf(req.url)])
+    const html = req.url == "/" ? fs.readFileSync(pages[0]) : fs.readFileSync(pages[urls.indexOf(req.url)])
     res.end(html)
   } else {
     res.statusCode = 200
